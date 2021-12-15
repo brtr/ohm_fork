@@ -1,17 +1,27 @@
 # 在合约上输入数量比例是1比1000000000，即如果需要stake 1个OHM，amount需要填1000000000 (9个0)
 
-## 发布流程
+## 发布准备
 
-1. 首先发布OHM和sOHM两个合约，不需要参数
-2. 然后是Staking，发布需要传OHM_ADDRESS和sOHM_ADDRESS, EPOCH_LENGTH, FIRST_EPOCH_NUMBER, FIRST_EPOCH_BLOCK， 暂时没发现后三个参数有什么影响
-3. 再是StakingHelper，发布需要OHM_ADDRESS和STAKING_ADDRESS
-4. 最后是StakingWarmUp，发布需要STAKING_ADDRESS和sOHM_ADDRESS
-5. 更新sOHM合约里面STAKING_ADDRESS
-6. 在Staking合约的write页面找到setContract，contract填1，address填Warmup合约地址
+复制env_sample到.env并修改已有参数
+
+## 发布合约
+
+```
+npx hardhat run scripts/deploy.js --network rinkeby
+```
+
+## 验证合约 (国内网络可能会超时，在服务器上验证过没问题)
+
+```
+npx hardhat verify --network rinkeby 合约地址
+```
 
 ## Mint
 
-在OHM合约write页面找到mint，填入需要mint的地址和数量即可
+在OHM合约write页面找到mint，填入需要mint的地址和数量即可, 或者
+```
+npx hardhat run scripts/mint.js --network rinkeby  // 代码默认数量是10w，可以修改
+```
 
 ## Stake
 
