@@ -1,8 +1,20 @@
+const { DAI_ADDRESS, UNISWAP_ROUTER_ADDRESS, DAO_ADDRESS } = process.env;
+
 const main = async () => {
   let contractFactory = await hre.ethers.getContractFactory('OlympusERC20Token');
   const ohmContract = await contractFactory.deploy();
   await ohmContract.deployed();
   console.log("OHM Contract deployed to:", ohmContract.address);
+
+  contractFactory = await hre.ethers.getContractFactory('OlympusTreasury');
+  const treasuryContract = await contractFactory.deploy(ohmContract.address, DAI_ADDRESS, UNISWAP_ROUTER_ADDRESS, 1); //change needed block for queue
+  await treasuryContract.deployed();
+  console.log("Treasury Contract deployed to:", treasuryContract.address);
+
+  contractFactory = await hre.ethers.getContractFactory('OlympusBondDepository');
+  const bondContract = await contractFactory.deploy(ohmContract.address, DAI_ADDRESS, treasuryContract.address, DAO_ADDRESS, "0x0000000000000000000000000000000000000000");
+  await bondContract.deployed();
+  console.log("Dai Bond Contract deployed to:", bondContract.address);
 
   contractFactory = await hre.ethers.getContractFactory('sOlympus');
   const sOHMContract = await contractFactory.deploy();

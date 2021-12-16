@@ -10,6 +10,11 @@
 npx hardhat run scripts/deploy.js --network rinkeby
 ```
 
+## 配置合约
+```
+npx hardhat run scripts/setup.js --network rinkeby
+```
+
 ## 验证合约 (国内网络可能会超时，在服务器上验证过没问题)
 
 ```
